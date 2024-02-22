@@ -1,0 +1,24 @@
+import java.util.*;
+
+public class PhoneBook {
+    public static void main(String[] args) {
+      
+        Map<String, List<String>> phoneBook = new HashMap<>();
+        addContact(phoneBook, "Иванов", "123456789");
+        addContact(phoneBook, "Петров", "987654321");
+        addContact(phoneBook, "Иванов", "555555555");
+        addContact(phoneBook, "Сидоров", "111111111");
+        addContact(phoneBook, "Петров", "999999999");
+        printSortedContacts(phoneBook);
+    }
+    private static void addContact(Map<String, List<String>> phoneBook, String name, String phoneNumber) {
+        phoneBook.computeIfAbsent(name, k -> new ArrayList<>()).add(phoneNumber);
+    }
+    private static void printSortedContacts(Map<String, List<String>> phoneBook) {
+        List<Map.Entry<String, List<String>>> entries = new ArrayList<>(phoneBook.entrySet());
+        entries.sort(Comparator.comparingInt(entry -> entry.getValue().size(), Comparator.reverseOrder()));
+        for (Map.Entry<String, List<String>> entry : entries) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+    }
+}
